@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="MeatMasterDataBaseAccessor">
+  <DataContextMoniker Name="/MeatMasterDataBaseAccessorDataContext" />
+  <nestedChildShapes>
+    <classShape Id="459826be-57a2-4aca-9190-91810c383062" absoluteBounds="3.75, 1.875, 2, 4.6554182942708326">
+      <DataClassMoniker Name="/MeatMasterDataBaseAccessorDataContext/tblMfCdSample" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d7a38c77-3341-45c9-a564-2b6090734abf" absoluteBounds="3.765, 2.335, 1.9700000000000002, 4.095418294270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
