@@ -75,17 +75,8 @@ namespace SerialPortSimulator
 
     private void SendBarCode()
     {
-      string barCode;
-
-      if (checkBox1.Checked)
-      {
-        barCode = CreateBarCode();
-      }
-      else
-      {
-        barCode = BarCodeTb.Text;
-      }
-
+      string barCode = checkBox1.Checked ? CreateBarCode() : BarCodeTb.Text;
+      
       BarCodeTb.Text = barCode;
       serialPort1.WriteLine(barCode);
     }
