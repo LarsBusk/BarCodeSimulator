@@ -15,7 +15,9 @@ namespace SerialPortSimulator
   {
     private Random random;
     private string[] portNames;
-    private DataBaseHelper dataBaseHelper;
+    private DataBaseHelper dataBaseHelper; 
+    private System.Windows.Forms.Timer timer1;
+      
 
     public Form1()
     {
@@ -23,7 +25,11 @@ namespace SerialPortSimulator
       random = new Random();
       portNames = System.IO.Ports.SerialPort.GetPortNames();
       dataBaseHelper = new DataBaseHelper();
-     
+      this.timer1.Enabled = false;
+      this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+      startStopButton.Enabled = false;
+      SendBtn.Enabled = false;
+
       if (portNames.Length > 0)
       {
         foreach (string portName in portNames)
@@ -44,6 +50,8 @@ namespace SerialPortSimulator
         serialPort1.Parity = (Parity)Enum.Parse(typeof(Parity), Properties.Settings.Default.Parity);
         serialPort1.DataBits = Properties.Settings.Default.DataBits;
         serialPort1.StopBits = (StopBits) Enum.Parse(typeof(StopBits), Properties.Settings.Default.StopBits);
+        startStopButton.Enabled = true;
+        SendBtn.Enabled = true;
       }
       catch (Exception ex)
       {
@@ -54,6 +62,8 @@ namespace SerialPortSimulator
     private void DisConnectBtn_Click(object sender, EventArgs e)
     {
       serialPort1.Close();
+      startStopButton.Enabled = false;
+      SendBtn.Enabled = false;
     }
 
     private void SendBtn_Click(object sender, EventArgs e)
@@ -63,21 +73,23 @@ namespace SerialPortSimulator
 
     private string CreateBarCode()
     {
-      StringBuilder codeBuildere = new StringBuilder();
+      StringBuilder codeBuilder = new StringBuilder();
       for (int i = 0; i < int.Parse(lengthOfCode.Text); i++)
       {
-        codeBuildere.Append(random.Next(10).ToString());
+        codeBuilder.Append(random.Next(10).ToString());
       }
 
-      codeBuildere.Append(random.Next(1,5));
-      return codeBuildere.ToString();
+      int productInfo = int.Parse(ProductInfoTb.Text) + 1;
+      codeBuilder.Append(random.Next(1, productInfo));
+      return codeBuilder.ToString();
     }
 
     private void SendBarCode()
     {
-      string barCode = checkBox1.Checked ? CreateBarCode() : BarCodeTb.Text;
+      string barCode = randomCodeCb.Checked ? CreateBarCode() : BarCodeTb.Text;
       
       BarCodeTb.Text = barCode;
+
       serialPort1.WriteLine(barCode);
     }
 
@@ -98,12 +110,12 @@ namespace SerialPortSimulator
     {
       if (startStopButton.Text == "Start")
       {
-        timer1.Start();
+        timer1.Enabled = true;
         startStopButton.Text = "Stop";
         return;
       }
 
-      timer1.Stop();
+      timer1.Enabled = false;
       startStopButton.Text = "Start";
     }
   }

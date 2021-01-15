@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SerialPortSimulator
 {
@@ -17,10 +18,6 @@ namespace SerialPortSimulator
       dataBaseAccessor = new MeatMasterDataBaseAccessorDataContext();
       numberOfSamples = GetNumberOfNormalSamples();
     }
-    public int GetNumberOfNormalSamples()
-    {
-      return dataBaseAccessor.tblMfCdSamples.Count(f => f.SampleType == 0);
-    }
 
     public bool NewSample()
     {
@@ -33,6 +30,21 @@ namespace SerialPortSimulator
       }
 
       return false;
+    }
+
+    private int GetNumberOfNormalSamples()
+    {
+      int numberOfSamples = 0;
+      try
+      {
+        numberOfSamples = dataBaseAccessor.tblMfCdSamples.Count(f => f.SampleType == 0);
+      }
+      catch (Exception e)
+      {
+        MessageBox.Show("Failed to connect to SQL server.", "Error");
+      }
+
+      return numberOfSamples;
     }
   }
 }
